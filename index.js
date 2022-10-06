@@ -33,7 +33,7 @@ if (exports.FormData) {
     this.__toByteArray = function(inp) {
       var arr = [];
       var i = 0, len;
-      if (typeof inp == 'string') {
+      if (typeof inp === 'string') {
         for (len = inp.length; i < len; ++i)
           arr.push(inp.charCodeAt(i) & 0xff);
       } else if (inp && inp.byteLength) {/*If ArrayBuffer or typed array */
@@ -47,17 +47,24 @@ if (exports.FormData) {
   }
   
   /**
-   * @param fieldName              String                    Form field name
-   * @param filedata               object                    k6 http.FileData object
-   * @param filedata.data          String|Array|ArrayBuffer  File data
-   * @param filedata.filename      String                    Optional file name
-   * @param filedata.content_type  String                    Optional content type, default is application/octet-stream
+   * @param fieldName          String                    Form field name
+   * @param data               object|string             An object or string field value.
+   *
+   * If data is an object, it should match the structure of k6's http.FileData
+   * object (returned by http.file()) and consist of:
+   * @param data.data          String|Array|ArrayBuffer  File data
+   * @param data.filename      String                    Optional file name
+   * @param data.content_type  String                    Optional content type, default is application/octet-stream
    **/
-  FormData.prototype.append = function(fieldName, filedata) {
+  FormData.prototype.append = function(fieldName, data) {
     if (arguments.length < 2) {
       throw new SyntaxError('Not enough arguments');
     }
-    this.parts.push({field: fieldName, file: filedata});
+    var file = data;
+    if (typeof data === 'string') {
+      file = {data: data, content_type: 'text/plain'};
+    }
+    this.parts.push({field: fieldName, file: file});
   };
   
   /**

@@ -9,5 +9,5 @@ XMLHttpRequest and File related code which isn't supported in k6.
 ## Usage
 
 ```js
-import { FormData } from 'https://jslib.k6.io/formdata/0.0.1/index.js';
+import { FormData } from 'https://jslib.k6.io/formdata/0.0.2/index.js';
 ```
