@@ -82,7 +82,7 @@ if (exports.FormData) {
     if (arguments.length < 2) {
       throw new SyntaxError('Not enough arguments');
     }
-    let file = data;
+    var file = data;
     if (typeof data === 'string') {
         file = {data: data, content_type: 'text/plain'};
     }
