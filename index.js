@@ -68,7 +68,7 @@ if (exports.FormData) {
   };
 
   /**
-   * Set new value of an existing key (first found) or adds key/value if does not already exist.
+   * Set new value of all existing values with the new one or adds key/value if does not already exist.
    * @param fieldName          String                    Form field name
    * @param data               object|string             An object or string field value.
    *
@@ -86,13 +86,16 @@ if (exports.FormData) {
     if (typeof data === 'string') {
         file = {data: data, content_type: 'text/plain'};
     }
+    var isNew = true;
     for(var i=0; i < this.parts.length; i++){
       if(this.parts[i].field == fieldName){
         this.parts[i].file = file;
-        return
+        isNew = false;
       }
     }
-    this.parts.push({field: fieldName, file: file});
+    if (isNew) {
+      this.parts.push({field: fieldName, file: file});
+    }
   }
   
   /**
