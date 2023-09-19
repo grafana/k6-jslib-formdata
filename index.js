@@ -66,6 +66,37 @@ if (exports.FormData) {
     }
     this.parts.push({field: fieldName, file: file});
   };
+
+  /**
+   * Set new value of all existing values with the new one or adds key/value if does not already exist.
+   * @param fieldName          String                    Form field name
+   * @param data               object|string             An object or string field value.
+   *
+   * If data is an object, it should match the structure of k6's http.FileData
+   * object (returned by http.file()) and consist of:
+   * @param data.data          String|Array|ArrayBuffer  File data
+   * @param data.filename      String                    Optional file name
+   * @param data.content_type  String                    Optional content type, default is application/octet-stream
+   **/
+  FormData.prototype.set = function(fieldName, data){
+    if (arguments.length < 2) {
+      throw new SyntaxError('Not enough arguments');
+    }
+    var file = data;
+    if (typeof data === 'string') {
+        file = {data: data, content_type: 'text/plain'};
+    }
+    var isNew = true;
+    for(var i=0; i < this.parts.length; i++){
+      if(this.parts[i].field == fieldName){
+        this.parts[i].file = file;
+        isNew = false;
+      }
+    }
+    if (isNew) {
+      this.parts.push({field: fieldName, file: file});
+    }
+  }
   
   /**
    * Return the assembled request body as an ArrayBuffer.
