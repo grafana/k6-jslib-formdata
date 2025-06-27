@@ -23,7 +23,7 @@ if (exports.FormData) {
     if (!(this instanceof FormData)) return new FormData();
     // Generate a random boundary - This must be unique with respect to the
     // form's contents.
-    this.boundary = '------RWWorkerFormDataBoundary' + Math.random().toString(36);
+    this.boundary = '------RWWorkerFormDataBoundary' + Math.random().toString(36).substring(2);
     this.parts = [];
   
     /**
