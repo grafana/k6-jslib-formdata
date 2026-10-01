@@ -17,3 +17,4 @@ Data flows one way: field values in, serialized ArrayBuffer out. The caller pass
 - The module uses CommonJS-style `exports.FormData` assignment, but k6's module system treats it as a named export. Standard Node.js or browser semantics do not apply.
 - `index.js` contains a top-level `return` (early-exit guard); k6's CommonJS module wrapper tolerates this, but it is not valid in a standard ES module.
 - Code style is enforced by `.editorconfig` only (no Prettier/ESLint).
+- Security issues should be reported via [Grafana's security issue reporting page](https://grafana.com/legal/report-a-security-issue/) and not directly in this repository.
